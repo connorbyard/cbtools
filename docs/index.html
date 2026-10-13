@@ -1,0 +1,2643 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+<li><a href="#Tables">Tables</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><strong>cbtools</strong></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>cbtools</code></h1>
+<p>Procedural rendering, UI, and data helpers for Newt.</p>
+<p>
+ Requires Lua 5.1/LuaJIT and the Newt host APIs.
+ Rendering and UI state belong to these tools rather than gameplay.</p>
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">local cb = require(&quot;cbtools&quot;)
+cb.res.initialise(384, 216)
+cb.imgui.button(1, 10, 10, 100, 24)
+</pre>
+    </ul>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#maths.clamp">maths.clamp (value, minimum_value, maximum_value)</a></td>
+	<td class="summary">Clamp a number to an inclusive range.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#maths.lerp">maths.lerp (start_value, end_value, amount)</a></td>
+	<td class="summary">Interpolate between two numbers without clamping the amount.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#maths.inverse_lerp">maths.inverse_lerp (start_value, end_value, value)</a></td>
+	<td class="summary">Find the interpolation amount of a value within a range.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#maths.remap">maths.remap (value, input_minimum, input_maximum, output_minimum, output_maximum)</a></td>
+	<td class="summary">Map a value from one numeric range to another without clamping.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#maths.round">maths.round (value)</a></td>
+	<td class="summary">Round to the nearest integer, rounding halves toward positive infinity.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#maths.sign">maths.sign (value)</a></td>
+	<td class="summary">Return the sign of a number.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#maths.distance">maths.distance (point_a_x, point_a_y, point_b_x, point_b_y)</a></td>
+	<td class="summary">Calculate the Euclidean distance between two points.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#maths.snap">maths.snap (value, step_size)</a></td>
+	<td class="summary">Round a number to the nearest multiple of a step size.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#maths.approach">maths.approach (current_value, target_value, step_size)</a></td>
+	<td class="summary">Move a value toward a target without overshooting.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#maths.point_in_rect">maths.point_in_rect (point_x, point_y, rect_x, rect_y, rect_width, rect_height)</a></td>
+	<td class="summary">Test whether a point lies inside a rectangle, including its edges.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#maths.rects_overlap">maths.rects_overlap (rect_a_x, rect_a_y, rect_a_width, rect_a_height, rect_b_x, rect_b_y, rect_b_width, rect_b_height)</a></td>
+	<td class="summary">Test whether two rectangles overlap with positive area.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#data.save">data.save (path, value)</a></td>
+	<td class="summary">Serialize plain Lua data and write it to a file.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#data.load">data.load (path)</a></td>
+	<td class="summary">Load and validate serialized Lua data in an empty environment.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#data.load_csv">data.load_csv (path)</a></td>
+	<td class="summary">Load a simple comma-separated file using its first nonempty row as field names.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#shape.line">shape.line (start_x, start_y, end_x, end_y, color)</a></td>
+	<td class="summary">Draw a pixel line between two endpoints.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#shape.rect">shape.rect (x, y, width, height, color)</a></td>
+	<td class="summary">Draw a one-pixel rectangle outline.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#shape.rect_fill">shape.rect_fill (x, y, width, height, color)</a></td>
+	<td class="summary">Draw a filled rectangle.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#shape.rect_dither">shape.rect_dither (x, y, width, height, color_1, color_2, pattern)</a></td>
+	<td class="summary">Draw a rectangle using a repeating two-colour pattern anchored in draw coordinates.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#shape.circle">shape.circle (center_x, center_y, radius, color)</a></td>
+	<td class="summary">Draw a pixel circle outline.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#shape.circle_fill">shape.circle_fill (center_x, center_y, radius, color)</a></td>
+	<td class="summary">Draw a filled pixel circle.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#shape.triangle">shape.triangle (point_a_x, point_a_y, point_b_x, point_b_y, point_c_x, point_c_y, color)</a></td>
+	<td class="summary">Draw a pixel triangle outline.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#shape.triangle_fill">shape.triangle_fill (point_a_x, point_a_y, point_b_x, point_b_y, point_c_x, point_c_y, color)</a></td>
+	<td class="summary">Draw a filled pixel triangle.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#shape.smooth_triangle">shape.smooth_triangle (point_a_x, point_a_y, point_b_x, point_b_y, point_c_x, point_c_y, color)</a></td>
+	<td class="summary">Draw a filled triangle at four times the resolution and scale it down.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#shape.polygon">shape.polygon (points, color)</a></td>
+	<td class="summary">Draw a closed polygon outline.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#shape.polygon_fill">shape.polygon_fill (points, color)</a></td>
+	<td class="summary">Fill a polygon using pairs of scanline intersections.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#imgui.init">imgui.init (dt)</a></td>
+	<td class="summary">Begin a UI frame by sampling mouse input and updating the caret timer.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#imgui.panel">imgui.panel (x, y, width, height, color)</a></td>
+	<td class="summary">Draw a panel with a one-pixel outline.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#imgui.centered_text">imgui.centered_text (text, x, y, width, height)</a></td>
+	<td class="summary">Draw horizontally and vertically centered wrapped text.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#imgui.label">imgui.label (text, x, y, width, height)</a></td>
+	<td class="summary">Draw a panel containing left-aligned text centered vertically.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#imgui.button">imgui.button (id, x, y, width, height)</a></td>
+	<td class="summary">Draw a button and update its hover and active state.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#imgui.checkbox">imgui.checkbox (id, value, x, y)</a></td>
+	<td class="summary">Draw a checkbox and toggle its value when clicked.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#imgui.scrollbar">imgui.scrollbar (id, x, y, width, height, scroll, visible_size, content_size)</a></td>
+	<td class="summary">Draw a vertical scrollbar and update its scroll position while dragging.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#imgui.text_button">imgui.text_button (id, text, x, y, width, height)</a></td>
+	<td class="summary">Draw a button containing centered wrapped text.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#imgui.image_button">imgui.image_button (id, image, x, y, width, height)</a></td>
+	<td class="summary">Draw a button containing an image scaled to fit.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#imgui.text_box">imgui.text_box (text, x, y, width, height)</a></td>
+	<td class="summary">Draw a read-only text panel with character wrapping.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#imgui.text_field">imgui.text_field (id, x, y, width, height, text)</a></td>
+	<td class="summary">Draw an editable single-line text field with a caret and horizontal scrolling.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#camera.new_camera">camera.new_camera (x, y, zoom)</a></td>
+	<td class="summary">Create a plain camera state table.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#camera.start_camera">camera.start_camera (camera_state)</a></td>
+	<td class="summary">Begin a graphics transform for the camera with pixel-snapped translation.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#camera.stop_camera">camera.stop_camera ()</a></td>
+	<td class="summary">End the current camera graphics transform.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#camera.move_camera">camera.move_camera (camera_state, dx, dy)</a></td>
+	<td class="summary">Move the camera and clamp its position to any configured bounds.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#camera.set_camera_position">camera.set_camera_position (camera_state, x, y)</a></td>
+	<td class="summary">Set the camera position and clamp it to any configured bounds.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#camera.zoom_camera">camera.zoom_camera (camera_state, amount)</a></td>
+	<td class="summary">Add an amount to the camera zoom without clamping.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#camera.set_camera_zoom">camera.set_camera_zoom (camera_state, zoom)</a></td>
+	<td class="summary">Set the camera zoom without clamping.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#camera.world_to_screen">camera.world_to_screen (camera_state, x, y)</a></td>
+	<td class="summary">Convert world coordinates to screen coordinates using the camera state.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#camera.screen_to_world">camera.screen_to_world (camera_state, x, y)</a></td>
+	<td class="summary">Convert screen coordinates to world coordinates using the camera state.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#camera.set_camera_bounds">camera.set_camera_bounds (camera_state, min_x, min_y, max_x, max_y)</a></td>
+	<td class="summary">Set inclusive camera position bounds and clamp the current position.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#camera.clear_camera_bounds">camera.clear_camera_bounds (camera_state)</a></td>
+	<td class="summary">Remove camera position bounds.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#res.initialise">res.initialise (width, height)</a></td>
+	<td class="summary">Set the logical canvas dimensions and update its scale and mouse coordinates.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#res.update">res.update ()</a></td>
+	<td class="summary">Recalculate the centered canvas scale, offsets, and logical mouse coordinates.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#res.begin_canvas">res.begin_canvas ()</a></td>
+	<td class="summary">Begin the graphics transform for the scaled logical canvas.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#res.end_canvas">res.end_canvas ()</a></td>
+	<td class="summary">End the logical canvas graphics transform.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#spr.load_sprite_atlas">spr.load_sprite_atlas (path, sprite_width, sprite_height)</a></td>
+	<td class="summary">Load a sprite atlas and retain its CPU pixelmap and GPU image.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#spr.set_sprite_atlas">spr.set_sprite_atlas (atlas)</a></td>
+	<td class="summary">Set or clear the active sprite atlas.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#spr.draw_sprite">spr.draw_sprite (index, x, y, flip_x, flip_y, colour)</a></td>
+	<td class="summary">Draw a sprite from the active atlas.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#spr.animate_sprites">spr.animate_sprites (first_index, last_index, fps, x, y, flip_x, flip_y, colour)</a></td>
+	<td class="summary">Draw an animation frame from a contiguous sprite range using os.clock().</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#spr.swap_colour">spr.swap_colour (from_colour, to_colour)</a></td>
+	<td class="summary">Replace every exact occurrence of a colour in the active sprite atlas.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#tween.new_tween">tween.new_tween (duration)</a></td>
+	<td class="summary">Create a plain tween state table.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#tween.update_tween">tween.update_tween (tween_state, delta_time)</a></td>
+	<td class="summary">Advance a tween and mark it finished when its duration is reached.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#tween.reset_tween">tween.reset_tween (tween_state)</a></td>
+	<td class="summary">Reset a tween to zero elapsed time and clear its completion flag.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#tween.get_tween_time">tween.get_tween_time (tween_state)</a></td>
+	<td class="summary">Get the normalized progress of a tween.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#tween.linear">tween.linear (time)</a></td>
+	<td class="summary">Return linear easing for a normalized time.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#tween.sine_in">tween.sine_in (time)</a></td>
+	<td class="summary">Calculate sine easing that starts slowly.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#tween.sine_out">tween.sine_out (time)</a></td>
+	<td class="summary">Calculate sine easing that ends slowly.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#tween.sine_in_out">tween.sine_in_out (time)</a></td>
+	<td class="summary">Calculate sine easing that starts and ends slowly.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#tween.hop">tween.hop (maximum_height, time)</a></td>
+	<td class="summary">Calculate a parabolic hop that peaks halfway through.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#tween.bump">tween.bump (maximum_distance, time)</a></td>
+	<td class="summary">Calculate a sine-eased bump that peaks halfway through.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#tween.pulse">tween.pulse (minimum_value, maximum_value, time)</a></td>
+	<td class="summary">Calculate a sine-eased pulse from a minimum to a maximum and back.</td>
+	</tr>
+</table>
+<h2><a href="#Tables">Tables</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#maths">maths</a></td>
+	<td class="summary">Numeric interpolation, snapping, and geometry tests.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#data">data</a></td>
+	<td class="summary">Plain Lua data serialization and simple CSV loading.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#shape">shape</a></td>
+	<td class="summary">Raster-backed outlines, filled shapes, and dithering.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#imgui">imgui</a></td>
+	<td class="summary">Immediate-mode UI widgets and shared interaction state.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#camera">camera</a></td>
+	<td class="summary">Procedural camera transforms and coordinate conversion.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#res">res</a></td>
+	<td class="summary">Logical canvas scaling and mouse coordinate conversion.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#spr">spr</a></td>
+	<td class="summary">Sprite atlases, animation, and palette replacement.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#tween">tween</a></td>
+	<td class="summary">Tween progress and easing functions.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "maths.clamp"></a>
+    <strong>maths.clamp (value, minimum_value, maximum_value)</strong>
+    </dt>
+    <dd>
+    Clamp a number to an inclusive range.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">value</span>
+         number: Input value.
+        </li>
+        <li><span class="parameter">minimum_value</span>
+         number: Lower bound.
+        </li>
+        <li><span class="parameter">maximum_value</span>
+         number: Upper bound.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        number: Clamped value.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "maths.lerp"></a>
+    <strong>maths.lerp (start_value, end_value, amount)</strong>
+    </dt>
+    <dd>
+    Interpolate between two numbers without clamping the amount.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">start_value</span>
+         number: Start of the range.
+        </li>
+        <li><span class="parameter">end_value</span>
+         number: End of the range.
+        </li>
+        <li><span class="parameter">amount</span>
+         number: Interpolation amount; values outside 0 to 1 extrapolate.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        number: Interpolated value.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "maths.inverse_lerp"></a>
+    <strong>maths.inverse_lerp (start_value, end_value, value)</strong>
+    </dt>
+    <dd>
+    Find the interpolation amount of a value within a range.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">start_value</span>
+         number: Start of the range.
+        </li>
+        <li><span class="parameter">end_value</span>
+         number: End of the range; must differ from start_value.
+        </li>
+        <li><span class="parameter">value</span>
+         number: Input value.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        number: Unclamped interpolation amount.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "maths.remap"></a>
+    <strong>maths.remap (value, input_minimum, input_maximum, output_minimum, output_maximum)</strong>
+    </dt>
+    <dd>
+    Map a value from one numeric range to another without clamping.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">value</span>
+         number: Input value.
+        </li>
+        <li><span class="parameter">input_minimum</span>
+         number: Start of the input range.
+        </li>
+        <li><span class="parameter">input_maximum</span>
+         number: End of the input range; must differ from input_minimum.
+        </li>
+        <li><span class="parameter">output_minimum</span>
+         number: Start of the output range.
+        </li>
+        <li><span class="parameter">output_maximum</span>
+         number: End of the output range.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        number: Value in the output range.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "maths.round"></a>
+    <strong>maths.round (value)</strong>
+    </dt>
+    <dd>
+    Round to the nearest integer, rounding halves toward positive infinity.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">value</span>
+         number: Input value.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        number: Rounded integer.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "maths.sign"></a>
+    <strong>maths.sign (value)</strong>
+    </dt>
+    <dd>
+    Return the sign of a number.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">value</span>
+         number: Input value.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        number: -1, 0, or 1.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "maths.distance"></a>
+    <strong>maths.distance (point_a_x, point_a_y, point_b_x, point_b_y)</strong>
+    </dt>
+    <dd>
+    Calculate the Euclidean distance between two points.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">point_a_x</span>
+         number: Point a x coordinate.
+        </li>
+        <li><span class="parameter">point_a_y</span>
+         number: Point a y coordinate.
+        </li>
+        <li><span class="parameter">point_b_x</span>
+         number: Point b x coordinate.
+        </li>
+        <li><span class="parameter">point_b_y</span>
+         number: Point b y coordinate.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        number: Distance between the points.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "maths.snap"></a>
+    <strong>maths.snap (value, step_size)</strong>
+    </dt>
+    <dd>
+    Round a number to the nearest multiple of a step size.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">value</span>
+         number: Input value.
+        </li>
+        <li><span class="parameter">step_size</span>
+         number: Positive step size.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        number: Snapped value.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "maths.approach"></a>
+    <strong>maths.approach (current_value, target_value, step_size)</strong>
+    </dt>
+    <dd>
+    Move a value toward a target without overshooting.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">current_value</span>
+         number: Current value.
+        </li>
+        <li><span class="parameter">target_value</span>
+         number: Target value.
+        </li>
+        <li><span class="parameter">step_size</span>
+         number: Nonnegative maximum movement.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        number: Updated value.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "maths.point_in_rect"></a>
+    <strong>maths.point_in_rect (point_x, point_y, rect_x, rect_y, rect_width, rect_height)</strong>
+    </dt>
+    <dd>
+    Test whether a point lies inside a rectangle, including its edges.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">point_x</span>
+         number: Point x coordinate.
+        </li>
+        <li><span class="parameter">point_y</span>
+         number: Point y coordinate.
+        </li>
+        <li><span class="parameter">rect_x</span>
+         number: Rect x coordinate.
+        </li>
+        <li><span class="parameter">rect_y</span>
+         number: Rect y coordinate.
+        </li>
+        <li><span class="parameter">rect_width</span>
+         number: Rect width in pixels.
+        </li>
+        <li><span class="parameter">rect_height</span>
+         number: Rect height in pixels.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        boolean: Whether the point is inside the rectangle.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "maths.rects_overlap"></a>
+    <strong>maths.rects_overlap (rect_a_x, rect_a_y, rect_a_width, rect_a_height, rect_b_x, rect_b_y, rect_b_width, rect_b_height)</strong>
+    </dt>
+    <dd>
+    Test whether two rectangles overlap with positive area.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">rect_a_x</span>
+         number: Rect a x coordinate.
+        </li>
+        <li><span class="parameter">rect_a_y</span>
+         number: Rect a y coordinate.
+        </li>
+        <li><span class="parameter">rect_a_width</span>
+         number: Rect a width in pixels.
+        </li>
+        <li><span class="parameter">rect_a_height</span>
+         number: Rect a height in pixels.
+        </li>
+        <li><span class="parameter">rect_b_x</span>
+         number: Rect b x coordinate.
+        </li>
+        <li><span class="parameter">rect_b_y</span>
+         number: Rect b y coordinate.
+        </li>
+        <li><span class="parameter">rect_b_width</span>
+         number: Rect b width in pixels.
+        </li>
+        <li><span class="parameter">rect_b_height</span>
+         number: Rect b height in pixels.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        boolean: Whether the rectangles overlap; touching edges do not count.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "data.save"></a>
+    <strong>data.save (path, value)</strong>
+    </dt>
+    <dd>
+    Serialize plain Lua data and write it to a file.
+ Only scalar values and plain tables with scalar keys are supported.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">path</span>
+         string: File path.
+        </li>
+        <li><span class="parameter">value</span>
+         nil|boolean|number|string|table: Plain acyclic data to serialize.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+        boolean|nil: Filesystem write result.</li>
+        <li>
+        string|nil: Filesystem error message on failure.</li>
+    </ol>
+
+    <h3>Raises:</h3>
+    Unsupported values, table keys, metatables, or cyclic tables.
+
+
+
+</dd>
+    <dt>
+    <a name = "data.load"></a>
+    <strong>data.load (path)</strong>
+    </dt>
+    <dd>
+    Load and validate serialized Lua data in an empty environment.
+ Uses Lua 5.1/LuaJIT loadstring and setfenv. A valid nil value also returns nil without an error.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">path</span>
+         string: File path.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+        nil|boolean|number|string|table: Loaded value, or nil on failure.</li>
+        <li>
+        string|nil: Read, syntax, execution, or validation error on failure.</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "data.load_csv"></a>
+    <strong>data.load_csv (path)</strong>
+    </dt>
+    <dd>
+    Load a simple comma-separated file using its first nonempty row as field names.
+ Quoted fields and embedded commas are not supported.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">path</span>
+         string: File path.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        table: Array of row tables; empty fields are omitted and numbers and booleans are converted.
+    </ol>
+
+    <h3>Raises:</h3>
+    The file cannot be read or a row has the wrong number of fields.
+
+
+
+</dd>
+    <dt>
+    <a name = "shape.line"></a>
+    <strong>shape.line (start_x, start_y, end_x, end_y, color)</strong>
+    </dt>
+    <dd>
+    Draw a pixel line between two endpoints.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">start_x</span>
+         number: Start x coordinate.
+        </li>
+        <li><span class="parameter">start_y</span>
+         number: Start y coordinate.
+        </li>
+        <li><span class="parameter">end_x</span>
+         number: End x coordinate.
+        </li>
+        <li><span class="parameter">end_y</span>
+         number: End y coordinate.
+        </li>
+        <li><span class="parameter">color</span>
+         number: Packed RGBA colour.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "shape.rect"></a>
+    <strong>shape.rect (x, y, width, height, color)</strong>
+    </dt>
+    <dd>
+    Draw a one-pixel rectangle outline.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         number: X coordinate in pixels.
+        </li>
+        <li><span class="parameter">y</span>
+         number: Y coordinate in pixels.
+        </li>
+        <li><span class="parameter">width</span>
+         number: Width in pixels.
+        </li>
+        <li><span class="parameter">height</span>
+         number: Height in pixels.
+        </li>
+        <li><span class="parameter">color</span>
+         number: Packed RGBA colour.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "shape.rect_fill"></a>
+    <strong>shape.rect_fill (x, y, width, height, color)</strong>
+    </dt>
+    <dd>
+    Draw a filled rectangle.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         number: X coordinate in pixels.
+        </li>
+        <li><span class="parameter">y</span>
+         number: Y coordinate in pixels.
+        </li>
+        <li><span class="parameter">width</span>
+         number: Width in pixels.
+        </li>
+        <li><span class="parameter">height</span>
+         number: Height in pixels.
+        </li>
+        <li><span class="parameter">color</span>
+         number: Packed RGBA colour.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "shape.rect_dither"></a>
+    <strong>shape.rect_dither (x, y, width, height, color_1, color_2, pattern)</strong>
+    </dt>
+    <dd>
+    Draw a rectangle using a repeating two-colour pattern anchored in draw coordinates.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         number: X coordinate in pixels.
+        </li>
+        <li><span class="parameter">y</span>
+         number: Y coordinate in pixels.
+        </li>
+        <li><span class="parameter">width</span>
+         number: Width in pixels.
+        </li>
+        <li><span class="parameter">height</span>
+         number: Height in pixels.
+        </li>
+        <li><span class="parameter">color_1</span>
+         number: Packed RGBA colour for pattern entries equal to 1.
+        </li>
+        <li><span class="parameter">color_2</span>
+         number: Packed RGBA colour for all other pattern entries.
+        </li>
+        <li><span class="parameter">pattern</span>
+         table: Nonempty rectangular array of pattern rows.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "shape.circle"></a>
+    <strong>shape.circle (center_x, center_y, radius, color)</strong>
+    </dt>
+    <dd>
+    Draw a pixel circle outline.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">center_x</span>
+         number: Center x coordinate.
+        </li>
+        <li><span class="parameter">center_y</span>
+         number: Center y coordinate.
+        </li>
+        <li><span class="parameter">radius</span>
+         number: Radius in pixels; negative radii draw nothing.
+        </li>
+        <li><span class="parameter">color</span>
+         number: Packed RGBA colour.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "shape.circle_fill"></a>
+    <strong>shape.circle_fill (center_x, center_y, radius, color)</strong>
+    </dt>
+    <dd>
+    Draw a filled pixel circle.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">center_x</span>
+         number: Center x coordinate.
+        </li>
+        <li><span class="parameter">center_y</span>
+         number: Center y coordinate.
+        </li>
+        <li><span class="parameter">radius</span>
+         number: Radius in pixels; negative radii draw nothing.
+        </li>
+        <li><span class="parameter">color</span>
+         number: Packed RGBA colour.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "shape.triangle"></a>
+    <strong>shape.triangle (point_a_x, point_a_y, point_b_x, point_b_y, point_c_x, point_c_y, color)</strong>
+    </dt>
+    <dd>
+    Draw a pixel triangle outline.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">point_a_x</span>
+         number: Point a x coordinate.
+        </li>
+        <li><span class="parameter">point_a_y</span>
+         number: Point a y coordinate.
+        </li>
+        <li><span class="parameter">point_b_x</span>
+         number: Point b x coordinate.
+        </li>
+        <li><span class="parameter">point_b_y</span>
+         number: Point b y coordinate.
+        </li>
+        <li><span class="parameter">point_c_x</span>
+         number: Point c x coordinate.
+        </li>
+        <li><span class="parameter">point_c_y</span>
+         number: Point c y coordinate.
+        </li>
+        <li><span class="parameter">color</span>
+         number: Packed RGBA colour.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "shape.triangle_fill"></a>
+    <strong>shape.triangle_fill (point_a_x, point_a_y, point_b_x, point_b_y, point_c_x, point_c_y, color)</strong>
+    </dt>
+    <dd>
+    Draw a filled pixel triangle.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">point_a_x</span>
+         number: Point a x coordinate.
+        </li>
+        <li><span class="parameter">point_a_y</span>
+         number: Point a y coordinate.
+        </li>
+        <li><span class="parameter">point_b_x</span>
+         number: Point b x coordinate.
+        </li>
+        <li><span class="parameter">point_b_y</span>
+         number: Point b y coordinate.
+        </li>
+        <li><span class="parameter">point_c_x</span>
+         number: Point c x coordinate.
+        </li>
+        <li><span class="parameter">point_c_y</span>
+         number: Point c y coordinate.
+        </li>
+        <li><span class="parameter">color</span>
+         number: Packed RGBA colour.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "shape.smooth_triangle"></a>
+    <strong>shape.smooth_triangle (point_a_x, point_a_y, point_b_x, point_b_y, point_c_x, point_c_y, color)</strong>
+    </dt>
+    <dd>
+    Draw a filled triangle at four times the resolution and scale it down.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">point_a_x</span>
+         number: Point a x coordinate.
+        </li>
+        <li><span class="parameter">point_a_y</span>
+         number: Point a y coordinate.
+        </li>
+        <li><span class="parameter">point_b_x</span>
+         number: Point b x coordinate.
+        </li>
+        <li><span class="parameter">point_b_y</span>
+         number: Point b y coordinate.
+        </li>
+        <li><span class="parameter">point_c_x</span>
+         number: Point c x coordinate.
+        </li>
+        <li><span class="parameter">point_c_y</span>
+         number: Point c y coordinate.
+        </li>
+        <li><span class="parameter">color</span>
+         number: Packed RGBA colour.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "shape.polygon"></a>
+    <strong>shape.polygon (points, color)</strong>
+    </dt>
+    <dd>
+    Draw a closed polygon outline.
+ Fewer than two vertices draw nothing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">points</span>
+         table: Array of {x, y} vertices.
+        </li>
+        <li><span class="parameter">color</span>
+         number: Packed RGBA colour.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "shape.polygon_fill"></a>
+    <strong>shape.polygon_fill (points, color)</strong>
+    </dt>
+    <dd>
+    Fill a polygon using pairs of scanline intersections.
+ Fewer than three vertices draw nothing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">points</span>
+         table: Array of {x, y} vertices.
+        </li>
+        <li><span class="parameter">color</span>
+         number: Packed RGBA colour.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "imgui.init"></a>
+    <strong>imgui.init (dt)</strong>
+    </dt>
+    <dd>
+    Begin a UI frame by sampling mouse input and updating the caret timer.
+ Call once per frame before drawing widgets. Mouse coordinates are sampled in window space.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">dt</span>
+         number|nil: Elapsed seconds; defaults to 0.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "imgui.panel"></a>
+    <strong>imgui.panel (x, y, width, height, color)</strong>
+    </dt>
+    <dd>
+    Draw a panel with a one-pixel outline.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         number: X coordinate in pixels.
+        </li>
+        <li><span class="parameter">y</span>
+         number: Y coordinate in pixels.
+        </li>
+        <li><span class="parameter">width</span>
+         number: Width in pixels.
+        </li>
+        <li><span class="parameter">height</span>
+         number: Height in pixels.
+        </li>
+        <li><span class="parameter">color</span>
+         number|nil: Packed RGBA fill colour; defaults to config.color_panel.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "imgui.centered_text"></a>
+    <strong>imgui.centered_text (text, x, y, width, height)</strong>
+    </dt>
+    <dd>
+    Draw horizontally and vertically centered wrapped text.
+ Resets text alignment to left after drawing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+         string: Text to display.
+        </li>
+        <li><span class="parameter">x</span>
+         number: X coordinate in pixels.
+        </li>
+        <li><span class="parameter">y</span>
+         number: Y coordinate in pixels.
+        </li>
+        <li><span class="parameter">width</span>
+         number: Width in pixels.
+        </li>
+        <li><span class="parameter">height</span>
+         number: Height in pixels.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "imgui.label"></a>
+    <strong>imgui.label (text, x, y, width, height)</strong>
+    </dt>
+    <dd>
+    Draw a panel containing left-aligned text centered vertically.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+         string: Text to display.
+        </li>
+        <li><span class="parameter">x</span>
+         number: X coordinate in pixels.
+        </li>
+        <li><span class="parameter">y</span>
+         number: Y coordinate in pixels.
+        </li>
+        <li><span class="parameter">width</span>
+         number: Width in pixels.
+        </li>
+        <li><span class="parameter">height</span>
+         number: Height in pixels.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "imgui.button"></a>
+    <strong>imgui.button (id, x, y, width, height)</strong>
+    </dt>
+    <dd>
+    Draw a button and update its hover and active state.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">id</span>
+         number|string: Explicit non-zero widget ID, unique within the frame.
+        </li>
+        <li><span class="parameter">x</span>
+         number: X coordinate in pixels.
+        </li>
+        <li><span class="parameter">y</span>
+         number: Y coordinate in pixels.
+        </li>
+        <li><span class="parameter">width</span>
+         number: Width in pixels.
+        </li>
+        <li><span class="parameter">height</span>
+         number: Height in pixels.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+        boolean: True when released over the button after activation.</li>
+        <li>
+        boolean: True while the active button is held down.</li>
+    </ol>
+
+    <h3>Raises:</h3>
+    The widget ID is nil or 0.
+
+
+
+</dd>
+    <dt>
+    <a name = "imgui.checkbox"></a>
+    <strong>imgui.checkbox (id, value, x, y)</strong>
+    </dt>
+    <dd>
+    Draw a checkbox and toggle its value when clicked.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">id</span>
+         number|string: Explicit non-zero widget ID, unique within the frame.
+        </li>
+        <li><span class="parameter">value</span>
+         boolean: Current checkbox value.
+        </li>
+        <li><span class="parameter">x</span>
+         number: X coordinate in pixels.
+        </li>
+        <li><span class="parameter">y</span>
+         number: Y coordinate in pixels.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        boolean: Updated checkbox value.
+    </ol>
+
+    <h3>Raises:</h3>
+    The value is not boolean or the widget ID is nil or 0.
+
+
+
+</dd>
+    <dt>
+    <a name = "imgui.scrollbar"></a>
+    <strong>imgui.scrollbar (id, x, y, width, height, scroll, visible_size, content_size)</strong>
+    </dt>
+    <dd>
+    Draw a vertical scrollbar and update its scroll position while dragging.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">id</span>
+         number|string: Explicit non-zero widget ID, unique within the frame.
+        </li>
+        <li><span class="parameter">x</span>
+         number: X coordinate in pixels.
+        </li>
+        <li><span class="parameter">y</span>
+         number: Y coordinate in pixels.
+        </li>
+        <li><span class="parameter">width</span>
+         number: Width in pixels.
+        </li>
+        <li><span class="parameter">height</span>
+         number: Height in pixels.
+        </li>
+        <li><span class="parameter">scroll</span>
+         number: Current scroll position.
+        </li>
+        <li><span class="parameter">visible_size</span>
+         number: Visible content size.
+        </li>
+        <li><span class="parameter">content_size</span>
+         number: Total content size.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        number: Updated scroll position, clamped to the content range.
+    </ol>
+
+    <h3>Raises:</h3>
+    The widget ID is nil or 0.
+
+
+
+</dd>
+    <dt>
+    <a name = "imgui.text_button"></a>
+    <strong>imgui.text_button (id, text, x, y, width, height)</strong>
+    </dt>
+    <dd>
+    Draw a button containing centered wrapped text.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">id</span>
+         number|string: Explicit non-zero widget ID, unique within the frame.
+        </li>
+        <li><span class="parameter">text</span>
+         string: Text to display.
+        </li>
+        <li><span class="parameter">x</span>
+         number: X coordinate in pixels.
+        </li>
+        <li><span class="parameter">y</span>
+         number: Y coordinate in pixels.
+        </li>
+        <li><span class="parameter">width</span>
+         number: Width in pixels.
+        </li>
+        <li><span class="parameter">height</span>
+         number: Height in pixels.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        boolean: True when clicked.
+    </ol>
+
+    <h3>Raises:</h3>
+    The widget ID is nil or 0.
+
+
+
+</dd>
+    <dt>
+    <a name = "imgui.image_button"></a>
+    <strong>imgui.image_button (id, image, x, y, width, height)</strong>
+    </dt>
+    <dd>
+    Draw a button containing an image scaled to fit.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">id</span>
+         number|string: Explicit non-zero widget ID, unique within the frame.
+        </li>
+        <li><span class="parameter">image</span>
+         userdata: Newt image handle.
+        </li>
+        <li><span class="parameter">x</span>
+         number: X coordinate in pixels.
+        </li>
+        <li><span class="parameter">y</span>
+         number: Y coordinate in pixels.
+        </li>
+        <li><span class="parameter">width</span>
+         number: Width in pixels.
+        </li>
+        <li><span class="parameter">height</span>
+         number: Height in pixels.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        boolean: True when clicked.
+    </ol>
+
+    <h3>Raises:</h3>
+    The widget ID is nil or 0.
+
+
+
+</dd>
+    <dt>
+    <a name = "imgui.text_box"></a>
+    <strong>imgui.text_box (text, x, y, width, height)</strong>
+    </dt>
+    <dd>
+    Draw a read-only text panel with character wrapping.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+         string: Text to display.
+        </li>
+        <li><span class="parameter">x</span>
+         number: X coordinate in pixels.
+        </li>
+        <li><span class="parameter">y</span>
+         number: Y coordinate in pixels.
+        </li>
+        <li><span class="parameter">width</span>
+         number: Width in pixels.
+        </li>
+        <li><span class="parameter">height</span>
+         number: Height in pixels.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "imgui.text_field"></a>
+    <strong>imgui.text_field (id, x, y, width, height, text)</strong>
+    </dt>
+    <dd>
+    Draw an editable single-line text field with a caret and horizontal scrolling.
+ Supports backspace, left/right arrows, Alt word movement, and Command line movement.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">id</span>
+         number|string: Explicit non-zero widget ID, unique within the frame.
+        </li>
+        <li><span class="parameter">x</span>
+         number: X coordinate in pixels.
+        </li>
+        <li><span class="parameter">y</span>
+         number: Y coordinate in pixels.
+        </li>
+        <li><span class="parameter">width</span>
+         number: Width in pixels.
+        </li>
+        <li><span class="parameter">height</span>
+         number: Height in pixels.
+        </li>
+        <li><span class="parameter">text</span>
+         string: Current field value; editing uses byte offsets.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        string: Updated text.
+    </ol>
+
+    <h3>Raises:</h3>
+    The text is not a string or the widget ID is nil or 0.
+
+
+
+</dd>
+    <dt>
+    <a name = "camera.new_camera"></a>
+    <strong>camera.new_camera (x, y, zoom)</strong>
+    </dt>
+    <dd>
+    Create a plain camera state table.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         number|nil: Initial world x position; defaults to 0.
+        </li>
+        <li><span class="parameter">y</span>
+         number|nil: Initial world y position; defaults to 0.
+        </li>
+        <li><span class="parameter">zoom</span>
+         number|nil: Initial zoom; defaults to 1.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        table: Camera position, zoom, and optional position bounds.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "camera.start_camera"></a>
+    <strong>camera.start_camera (camera_state)</strong>
+    </dt>
+    <dd>
+    Begin a graphics transform for the camera with pixel-snapped translation.
+ Pair with camera.stop_camera.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">camera_state</span>
+         table: Camera state returned by camera.new_camera.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "camera.stop_camera"></a>
+    <strong>camera.stop_camera ()</strong>
+    </dt>
+    <dd>
+    End the current camera graphics transform.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "camera.move_camera"></a>
+    <strong>camera.move_camera (camera_state, dx, dy)</strong>
+    </dt>
+    <dd>
+    Move the camera and clamp its position to any configured bounds.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">camera_state</span>
+         table: Camera state returned by camera.new_camera.
+        </li>
+        <li><span class="parameter">dx</span>
+         number: Horizontal movement in world units.
+        </li>
+        <li><span class="parameter">dy</span>
+         number: Vertical movement in world units.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "camera.set_camera_position"></a>
+    <strong>camera.set_camera_position (camera_state, x, y)</strong>
+    </dt>
+    <dd>
+    Set the camera position and clamp it to any configured bounds.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">camera_state</span>
+         table: Camera state returned by camera.new_camera.
+        </li>
+        <li><span class="parameter">x</span>
+         number: X coordinate in pixels.
+        </li>
+        <li><span class="parameter">y</span>
+         number: Y coordinate in pixels.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "camera.zoom_camera"></a>
+    <strong>camera.zoom_camera (camera_state, amount)</strong>
+    </dt>
+    <dd>
+    Add an amount to the camera zoom without clamping.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">camera_state</span>
+         table: Camera state returned by camera.new_camera.
+        </li>
+        <li><span class="parameter">amount</span>
+         number: Change to the current zoom.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "camera.set_camera_zoom"></a>
+    <strong>camera.set_camera_zoom (camera_state, zoom)</strong>
+    </dt>
+    <dd>
+    Set the camera zoom without clamping.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">camera_state</span>
+         table: Camera state returned by camera.new_camera.
+        </li>
+        <li><span class="parameter">zoom</span>
+         number: Camera scale; use a positive non-zero value.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "camera.world_to_screen"></a>
+    <strong>camera.world_to_screen (camera_state, x, y)</strong>
+    </dt>
+    <dd>
+    Convert world coordinates to screen coordinates using the camera state.
+ Does not include other graphics transforms or canvas scaling.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">camera_state</span>
+         table: Camera state returned by camera.new_camera.
+        </li>
+        <li><span class="parameter">x</span>
+         number: X coordinate in pixels.
+        </li>
+        <li><span class="parameter">y</span>
+         number: Y coordinate in pixels.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+        number: Screen x coordinate before pixel snapping.</li>
+        <li>
+        number: Screen y coordinate before pixel snapping.</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "camera.screen_to_world"></a>
+    <strong>camera.screen_to_world (camera_state, x, y)</strong>
+    </dt>
+    <dd>
+    Convert screen coordinates to world coordinates using the camera state.
+ Does not include other graphics transforms or canvas scaling; zoom must be non-zero.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">camera_state</span>
+         table: Camera state returned by camera.new_camera.
+        </li>
+        <li><span class="parameter">x</span>
+         number: X coordinate in pixels.
+        </li>
+        <li><span class="parameter">y</span>
+         number: Y coordinate in pixels.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+        number: World x coordinate.</li>
+        <li>
+        number: World y coordinate.</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "camera.set_camera_bounds"></a>
+    <strong>camera.set_camera_bounds (camera_state, min_x, min_y, max_x, max_y)</strong>
+    </dt>
+    <dd>
+    Set inclusive camera position bounds and clamp the current position.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">camera_state</span>
+         table: Camera state returned by camera.new_camera.
+        </li>
+        <li><span class="parameter">min_x</span>
+         number: Minimum camera x position.
+        </li>
+        <li><span class="parameter">min_y</span>
+         number: Minimum camera y position.
+        </li>
+        <li><span class="parameter">max_x</span>
+         number: Maximum camera x position.
+        </li>
+        <li><span class="parameter">max_y</span>
+         number: Maximum camera y position.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "camera.clear_camera_bounds"></a>
+    <strong>camera.clear_camera_bounds (camera_state)</strong>
+    </dt>
+    <dd>
+    Remove camera position bounds.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">camera_state</span>
+         table: Camera state returned by camera.new_camera.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "res.initialise"></a>
+    <strong>res.initialise (width, height)</strong>
+    </dt>
+    <dd>
+    Set the logical canvas dimensions and update its scale and mouse coordinates.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">width</span>
+         number: Width in pixels.
+        </li>
+        <li><span class="parameter">height</span>
+         number: Height in pixels.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "res.update"></a>
+    <strong>res.update ()</strong>
+    </dt>
+    <dd>
+    Recalculate the centered canvas scale, offsets, and logical mouse coordinates.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "res.begin_canvas"></a>
+    <strong>res.begin_canvas ()</strong>
+    </dt>
+    <dd>
+    Begin the graphics transform for the scaled logical canvas.
+ Pair with res.end_canvas.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "res.end_canvas"></a>
+    <strong>res.end_canvas ()</strong>
+    </dt>
+    <dd>
+    End the logical canvas graphics transform.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "spr.load_sprite_atlas"></a>
+    <strong>spr.load_sprite_atlas (path, sprite_width, sprite_height)</strong>
+    </dt>
+    <dd>
+    Load a sprite atlas and retain its CPU pixelmap and GPU image.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">path</span>
+         string: File path.
+        </li>
+        <li><span class="parameter">sprite_width</span>
+         number: Sprite width in pixels.
+        </li>
+        <li><span class="parameter">sprite_height</span>
+         number: Sprite height in pixels.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        table: Atlas dimensions, tile dimensions, row and column counts, pixelmap, and image.
+    </ol>
+
+    <h3>Raises:</h3>
+    The pixelmap cannot be loaded.
+
+
+
+</dd>
+    <dt>
+    <a name = "spr.set_sprite_atlas"></a>
+    <strong>spr.set_sprite_atlas (atlas)</strong>
+    </dt>
+    <dd>
+    Set or clear the active sprite atlas.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">atlas</span>
+         table|nil: Atlas returned by spr.load_sprite_atlas, or nil to clear it.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "spr.draw_sprite"></a>
+    <strong>spr.draw_sprite (index, x, y, flip_x, flip_y, colour)</strong>
+    </dt>
+    <dd>
+    Draw a sprite from the active atlas.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">index</span>
+         number: Zero-based sprite index.
+        </li>
+        <li><span class="parameter">x</span>
+         number: X coordinate in pixels.
+        </li>
+        <li><span class="parameter">y</span>
+         number: Y coordinate in pixels.
+        </li>
+        <li><span class="parameter">flip_x</span>
+         boolean|nil: Flip horizontally; defaults to false.
+        </li>
+        <li><span class="parameter">flip_y</span>
+         boolean|nil: Flip vertically; defaults to false.
+        </li>
+        <li><span class="parameter">colour</span>
+         number|nil: Packed RGBA modulation colour; defaults to opaque white.
+        </li>
+    </ul>
+
+
+    <h3>Raises:</h3>
+    No sprite atlas is set.
+
+
+
+</dd>
+    <dt>
+    <a name = "spr.animate_sprites"></a>
+    <strong>spr.animate_sprites (first_index, last_index, fps, x, y, flip_x, flip_y, colour)</strong>
+    </dt>
+    <dd>
+    Draw an animation frame from a contiguous sprite range using os.clock().
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">first_index</span>
+         number: First zero-based sprite index.
+        </li>
+        <li><span class="parameter">last_index</span>
+         number: Last zero-based sprite index, at least first_index.
+        </li>
+        <li><span class="parameter">fps</span>
+         number: Animation frames per second.
+        </li>
+        <li><span class="parameter">x</span>
+         number: X coordinate in pixels.
+        </li>
+        <li><span class="parameter">y</span>
+         number: Y coordinate in pixels.
+        </li>
+        <li><span class="parameter">flip_x</span>
+         boolean|nil: Flip horizontally; defaults to false.
+        </li>
+        <li><span class="parameter">flip_y</span>
+         boolean|nil: Flip vertically; defaults to false.
+        </li>
+        <li><span class="parameter">colour</span>
+         number|nil: Packed RGBA modulation colour; defaults to opaque white.
+        </li>
+    </ul>
+
+
+    <h3>Raises:</h3>
+    No sprite atlas is set.
+
+
+
+</dd>
+    <dt>
+    <a name = "spr.swap_colour"></a>
+    <strong>spr.swap_colour (from_colour, to_colour)</strong>
+    </dt>
+    <dd>
+    Replace every exact occurrence of a colour in the active sprite atlas.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">from_colour</span>
+         number: Exact packed RGBA colour to replace.
+        </li>
+        <li><span class="parameter">to_colour</span>
+         number: Replacement packed RGBA colour.
+        </li>
+    </ul>
+
+
+    <h3>Raises:</h3>
+    No sprite atlas is set.
+
+
+
+</dd>
+    <dt>
+    <a name = "tween.new_tween"></a>
+    <strong>tween.new_tween (duration)</strong>
+    </dt>
+    <dd>
+    Create a plain tween state table.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">duration</span>
+         number: Duration in seconds; must be greater than zero.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        table: Tween duration, elapsed time, and completion flag.
+    </ol>
+
+    <h3>Raises:</h3>
+    The duration is not greater than zero.
+
+
+
+</dd>
+    <dt>
+    <a name = "tween.update_tween"></a>
+    <strong>tween.update_tween (tween_state, delta_time)</strong>
+    </dt>
+    <dd>
+    Advance a tween and mark it finished when its duration is reached.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tween_state</span>
+         table: State returned by tween.new_tween.
+        </li>
+        <li><span class="parameter">delta_time</span>
+         number: Elapsed seconds to add.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tween.reset_tween"></a>
+    <strong>tween.reset_tween (tween_state)</strong>
+    </dt>
+    <dd>
+    Reset a tween to zero elapsed time and clear its completion flag.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tween_state</span>
+         table: State returned by tween.new_tween.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tween.get_tween_time"></a>
+    <strong>tween.get_tween_time (tween_state)</strong>
+    </dt>
+    <dd>
+    Get the normalized progress of a tween.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tween_state</span>
+         table: State returned by tween.new_tween.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        number: Progress clamped to the range 0 to 1.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tween.linear"></a>
+    <strong>tween.linear (time)</strong>
+    </dt>
+    <dd>
+    Return linear easing for a normalized time.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">time</span>
+         number: Normalized time, normally between 0 and 1.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        number: Unmodified time.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tween.sine_in"></a>
+    <strong>tween.sine_in (time)</strong>
+    </dt>
+    <dd>
+    Calculate sine easing that starts slowly.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">time</span>
+         number: Normalized time, normally between 0 and 1.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        number: Eased amount.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tween.sine_out"></a>
+    <strong>tween.sine_out (time)</strong>
+    </dt>
+    <dd>
+    Calculate sine easing that ends slowly.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">time</span>
+         number: Normalized time, normally between 0 and 1.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        number: Eased amount.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tween.sine_in_out"></a>
+    <strong>tween.sine_in_out (time)</strong>
+    </dt>
+    <dd>
+    Calculate sine easing that starts and ends slowly.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">time</span>
+         number: Normalized time, normally between 0 and 1.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        number: Eased amount.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tween.hop"></a>
+    <strong>tween.hop (maximum_height, time)</strong>
+    </dt>
+    <dd>
+    Calculate a parabolic hop that peaks halfway through.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">maximum_height</span>
+         number: Height at time 0.5.
+        </li>
+        <li><span class="parameter">time</span>
+         number: Normalized time, normally between 0 and 1.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        number: Hop height.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tween.bump"></a>
+    <strong>tween.bump (maximum_distance, time)</strong>
+    </dt>
+    <dd>
+    Calculate a sine-eased bump that peaks halfway through.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">maximum_distance</span>
+         number: Distance at time 0.5.
+        </li>
+        <li><span class="parameter">time</span>
+         number: Normalized time, normally between 0 and 1.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        number: Bump distance.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tween.pulse"></a>
+    <strong>tween.pulse (minimum_value, maximum_value, time)</strong>
+    </dt>
+    <dd>
+    Calculate a sine-eased pulse from a minimum to a maximum and back.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">minimum_value</span>
+         number: Lower bound.
+        </li>
+        <li><span class="parameter">maximum_value</span>
+         number: Upper bound.
+        </li>
+        <li><span class="parameter">time</span>
+         number: Normalized time, normally between 0 and 1.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        number: Pulsed value.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Tables"></a>Tables</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "maths"></a>
+    <strong>maths</strong>
+    </dt>
+    <dd>
+    Numeric interpolation, snapping, and geometry tests.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "data"></a>
+    <strong>data</strong>
+    </dt>
+    <dd>
+    Plain Lua data serialization and simple CSV loading.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "shape"></a>
+    <strong>shape</strong>
+    </dt>
+    <dd>
+    Raster-backed outlines, filled shapes, and dithering.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">dither_checkered</span>
+         table: Alternating two-by-two checker pattern.
+        </li>
+        <li><span class="parameter">dither_25</span>
+         table: Two-by-two pattern with one entry set.
+        </li>
+        <li><span class="parameter">dither_75</span>
+         table: Two-by-two pattern with three entries set.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "imgui"></a>
+    <strong>imgui</strong>
+    </dt>
+    <dd>
+    Immediate-mode UI widgets and shared interaction state.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">hot_id</span>
+         number|string: Hovered widget ID, or 0.
+        </li>
+        <li><span class="parameter">active_id</span>
+         number|string: Active widget ID, or 0.
+        </li>
+        <li><span class="parameter">mouse_x</span>
+         number: Mouse x coordinate sampled by init.
+        </li>
+        <li><span class="parameter">mouse_y</span>
+         number: Mouse y coordinate sampled by init.
+        </li>
+        <li><span class="parameter">mouse_pressed</span>
+         boolean: Whether mouse1 was pressed this frame.
+        </li>
+        <li><span class="parameter">mouse_released</span>
+         boolean: Whether mouse1 was released this frame.
+        </li>
+        <li><span class="parameter">mouse_down</span>
+         boolean: Whether mouse1 is held.
+        </li>
+        <li><span class="parameter">scrollbar_drag_offset</span>
+         number: Mouse offset within the dragged scrollbar thumb.
+        </li>
+        <li><span class="parameter">text_edit_id</span>
+         number|string: Focused text field ID, or 0.
+        </li>
+        <li><span class="parameter">text_scroll</span>
+         number: Byte offset of the first visible text position.
+        </li>
+        <li><span class="parameter">caret</span>
+         number: Caret byte offset.
+        </li>
+        <li><span class="parameter">caret_timer</span>
+         number: Elapsed time toward the next caret blink.
+        </li>
+        <li><span class="parameter">caret_visible</span>
+         boolean: Whether the caret is currently visible.
+        </li>
+        <li><span class="parameter">config</span> table: Mutable widget colours, padding, and size settings.
+        <ul>
+        <li><span class="parameter">color_outline</span>
+         number: Packed RGBA panel outline colour.
+        </li>
+        <li><span class="parameter">color_panel</span>
+         number: Default packed RGBA panel fill colour.
+        </li>
+        <li><span class="parameter">color_cold</span>
+         number: Packed RGBA colour of an idle widget.
+        </li>
+        <li><span class="parameter">color_hot</span>
+         number: Packed RGBA colour of a hovered widget.
+        </li>
+        <li><span class="parameter">color_active</span>
+         number: Packed RGBA colour of an active widget.
+        </li>
+        <li><span class="parameter">color_text</span>
+         number: Packed RGBA widget text colour.
+        </li>
+        <li><span class="parameter">color_image_cold</span>
+         number: Packed RGBA overlay colour of an idle image button.
+        </li>
+        <li><span class="parameter">color_image_hot</span>
+         number: Packed RGBA overlay colour of a hovered image button.
+        </li>
+        <li><span class="parameter">checkbox_size</span>
+         number: Checkbox side length in pixels.
+        </li>
+        <li><span class="parameter">checkbox_padding</span>
+         number: Inset of the checkbox mark in pixels.
+        </li>
+        <li><span class="parameter">color_checkbox_checked</span>
+         number: Packed RGBA checkbox mark colour.
+        </li>
+        <li><span class="parameter">color_scrollbar_track</span>
+         number: Packed RGBA scrollbar track colour.
+        </li>
+        <li><span class="parameter">color_scrollbar_thumb_cold</span>
+         number: Packed RGBA colour of an idle scrollbar thumb.
+        </li>
+        <li><span class="parameter">color_scrollbar_thumb_hot</span>
+         number: Packed RGBA colour of a hovered scrollbar thumb.
+        </li>
+        <li><span class="parameter">color_scrollbar_thumb_active</span>
+         number: Packed RGBA colour of a dragged scrollbar thumb.
+        </li>
+        <li><span class="parameter">scrollbar_min_thumb_size</span>
+         number: Minimum scrollbar thumb height in pixels.
+        </li>
+        <li><span class="parameter">color_label_background</span>
+         number: Packed RGBA label fill colour.
+        </li>
+        <li><span class="parameter">color_label_text</span>
+         number: Packed RGBA label text colour.
+        </li>
+        <li><span class="parameter">label_padding</span>
+         number: Horizontal label inset in pixels.
+        </li>
+        <li><span class="parameter">text_padding</span>
+         number: Text box and text field inset in pixels.
+        </li>
+        </li></ul>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "camera"></a>
+    <strong>camera</strong>
+    </dt>
+    <dd>
+    Procedural camera transforms and coordinate conversion.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "res"></a>
+    <strong>res</strong>
+    </dt>
+    <dd>
+    Logical canvas scaling and mouse coordinate conversion.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">width</span>
+         number: Logical canvas width; initially 1280.
+        </li>
+        <li><span class="parameter">height</span>
+         number: Logical canvas height; initially 720.
+        </li>
+        <li><span class="parameter">scale</span>
+         number: Current window-to-canvas scale.
+        </li>
+        <li><span class="parameter">offset_x</span>
+         number: Horizontal canvas offset in window pixels.
+        </li>
+        <li><span class="parameter">offset_y</span>
+         number: Vertical canvas offset in window pixels.
+        </li>
+        <li><span class="parameter">mouse_x</span>
+         number: Mouse x in logical canvas coordinates.
+        </li>
+        <li><span class="parameter">mouse_y</span>
+         number: Mouse y in logical canvas coordinates.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "spr"></a>
+    <strong>spr</strong>
+    </dt>
+    <dd>
+    Sprite atlases, animation, and palette replacement.
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">atlas</span>
+         table|nil: Active sprite atlas, or nil when none is set.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tween"></a>
+    <strong>tween</strong>
+    </dt>
+    <dd>
+    Tween progress and easing functions.
+
+
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2026-10-13 16:32:49 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
