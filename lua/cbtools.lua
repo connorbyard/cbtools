@@ -856,7 +856,10 @@ end
 -- @field config.color_cold number: Packed RGBA colour of an idle widget.
 -- @field config.color_hot number: Packed RGBA colour of a hovered widget.
 -- @field config.color_active number: Packed RGBA colour of an active widget.
--- @field config.color_text number: Packed RGBA widget text colour.
+-- @field config.color_text number: Default packed RGBA widget text colour.
+-- @field config.color_text_cold number: Idle widget text colour.
+-- @field config.color_text_hot number: Hovered widget text colour.
+-- @field config.color_text_active number: Active widget text colour.
 -- @field config.color_image_cold number: Packed RGBA overlay colour of an idle image button.
 -- @field config.color_image_hot number: Packed RGBA overlay colour of a hovered image button.
 -- @field config.checkbox_size number: Checkbox side length in pixels.
@@ -897,6 +900,9 @@ cb.imgui = {
       color_hot = rgba(75, 75, 75, 255),
       color_active = rgba(100, 100, 100, 255),
       color_text = rgba(255, 255, 255, 255),
+      color_text_cold = rgba(255, 255, 255, 255),
+      color_text_hot = rgba(255, 255, 255, 255),
+      color_text_active = rgba(0, 0, 0, 255),
 
       color_image_cold = rgba(0, 0, 0, 51),
       color_image_hot = rgba(0, 0, 0, 26),
@@ -918,6 +924,31 @@ cb.imgui = {
       text_padding = 4,
    },
 }
+
+--- Override selected IMGUI settings without replacing unspecified defaults.
+-- @function imgui.set_config
+-- @param settings table: Known config keys and their replacement values.
+function cb.imgui.set_config(settings)
+   assert(type(settings) == "table", "IMGUI config settings must be a table")
+
+   for key, value in pairs(settings) do
+      assert(cb.imgui.config[key] ~= nil, "Unknown IMGUI config setting: " .. tostring(key))
+      assert(type(value) == type(cb.imgui.config[key]), "Invalid IMGUI config value for: " .. key)
+      cb.imgui.config[key] = value
+   end
+end
+
+--- Return the configured text colour for a widget state.
+-- @local
+local function widget_text_color(state)
+   local config = cb.imgui.config
+   if state == "active" then
+      return config.color_text_active or config.color_text
+   elseif state == "hot" then
+      return config.color_text_hot or config.color_text
+   end
+   return config.color_text_cold or config.color_text
+end
 
 --- Reject missing or zero widget IDs.
 -- @local
@@ -1003,7 +1034,7 @@ end
 -- @param y number: Y coordinate in pixels.
 -- @param width number: Width in pixels.
 -- @param height number: Height in pixels.
-function cb.imgui.centered_text(text, x, y, width, height)
+function cb.imgui.centered_text(text, x, y, width, height, color)
    if text == "" then
       return
    end
@@ -1013,7 +1044,7 @@ function cb.imgui.centered_text(text, x, y, width, height)
    local text_y = math.floor(y + (height - text_height) / 2)
 
    graphics.set_text_alignment("center")
-   graphics.draw_text_wrap(text, x, text_y, text_width, cb.imgui.config.color_text)
+   graphics.draw_text_wrap(text, x, text_y, text_width, color or cb.imgui.config.color_text)
    graphics.set_text_alignment("left")
 end
 
@@ -1195,7 +1226,7 @@ end
 function cb.imgui.text_button(id, text, x, y, width, height)
    local pressed = cb.imgui.button(id, x, y, width, height)
 
-   cb.imgui.centered_text(text, x, y, width, height)
+   cb.imgui.centered_text(text, x, y, width, height, widget_text_color(widget_state(id)))
 
    return pressed
 end
@@ -1498,19 +1529,19 @@ function cb.imgui.text_field(id, x, y, width, height, text)
       local character_width = graphics.measure_text(character)
 
       if cb.imgui.active_id == id and cb.imgui.caret == character_index - 1 and cb.imgui.caret_visible then
-         graphics.draw_rect(draw_x, draw_y, 1, text_height, cb.imgui.config.color_text)
+         graphics.draw_rect(draw_x, draw_y, 1, text_height, widget_text_color(state))
       end
 
       if draw_x + character_width > right then
          break
       end
 
-      graphics.draw_text(character, draw_x, draw_y, cb.imgui.config.color_text)
+      graphics.draw_text(character, draw_x, draw_y, widget_text_color(state))
       draw_x = draw_x + character_width
    end
 
    if cb.imgui.active_id == id and cb.imgui.caret == #text and cb.imgui.caret_visible and draw_x < right then
-      graphics.draw_rect(draw_x, draw_y, 1, text_height, cb.imgui.config.color_text)
+      graphics.draw_rect(draw_x, draw_y, 1, text_height, widget_text_color(state))
    end
 
    return text
@@ -1970,13 +2001,74 @@ end
 -- @param time number: Normalized time, normally between 0 and 1.
 -- @return number: Pulsed value.
 function cb.tween.pulse(minimum_value, maximum_value, time)
-   local value_range = maximum_value - minimum_value
+    local value_range = maximum_value - minimum_value
 
-   if time <= 0.5 then
-      return minimum_value + value_range * cb.tween.sine_out(time * 2)
+    if time <= 0.5 then
+        return minimum_value + value_range * cb.tween.sine_out(time * 2)
+    end
+
+    return minimum_value + value_range * cb.tween.sine_in((1 - time) * 2)
+end
+
+
+-- CSV tools ----------------------------------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------------------------------------------
+cb.csv = {}
+
+--- Parse CSV text into a table of rows.
+-- Each row contains an array of string values.
+-- Does not support quoted fields or embedded commas.
+-- @function csv.parse_csv
+-- @param text string: CSV content to parse.
+-- @return table: Array of rows containing string values.
+function cb.csv.parse_csv(text)
+   local rows = {}
+
+   for line in text:gmatch("[^\r\n]+") do
+      local row = {}
+      for value in (line .. ","):gmatch("(.-),") do
+         row[#row + 1] = value
+      end
+      rows[#rows + 1] = row
    end
 
-   return minimum_value + value_range * cb.tween.sine_in((1 - time) * 2)
+   return rows
+end
+
+--- Load a CSV file into a table of named definitions.
+-- Uses the first row as field names and the "id" column as the table key.
+-- Automatically converts numeric and boolean values.
+-- @function csv.load_csv_defs
+-- @param path string: Path to the CSV file.
+-- @return table|nil: Definitions indexed by ID, or nil on failure.
+-- @return string|nil: Error message if the file could not be opened.
+function cb.csv.load_csv_defs(path)
+    local file, err = io.open(path, "rb")
+    if not file then return nil, err end
+
+    local rows = cb.csv.parse_csv(file:read("*a"))
+    file:close()
+
+    local headers, defs = table.remove(rows, 1), {}
+
+    for _, row in ipairs(rows) do
+        local def = {}
+        for i, key in ipairs(headers) do
+            local value = row[i]
+            if value == "true" then
+                value = true
+            elseif value == "false" then
+                value = false
+            else
+                value = tonumber(value) or value
+            end
+            def[key] = value
+        end
+
+        defs[def.id] = def
+        def.id = nil
+    end
+    return defs
 end
 
 return cb
